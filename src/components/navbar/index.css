@@ -1,0 +1,14 @@
+.navbar-main{
+    background-color: rgb(140, 200, 230);
+    padding: 10px;
+}
+.navbar-items{
+    display: flex;
+    list-style: none;
+    justify-content: start;
+    align-items: center;
+}
+.navbar-items li {
+    margin-right: 10px;
+    font-weight: 700;
+}
