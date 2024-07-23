@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 
-const Counter = () => {
+const Counter= () => {
+
+
+  /* this is local data sotrage if iam move to the next navgate different pages and again came back that data gone */
 
   const [increment, setIncrement] = useState(0);
 

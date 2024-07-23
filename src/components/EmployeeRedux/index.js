@@ -1,20 +1,21 @@
-import { useState } from "react";
-import { EmployeeService } from "../../services/EmployeeService";
+import { useDispatch, useSelector } from "react-redux";
+import { updateSelected } from "../../redux/features/employeeSlice";
 
 const EmployeeRedux = () => {
-  const [state, setState] = useState({
-    employees: EmployeeService.getAllEmployees()
-  });
+
+  let dispatch = useDispatch();
+
+  /* getting data from store */
+  let employeeState = useSelector((store) =>{
+    return store["employees"];
+  })
 
   /* destructuring */
-  let { employees } = state;
+  let { employees } = employeeState;
 
-  const updateSelected = (empId) => {
-    let selectedEmployees = employees.map((employee) => 
-      (employee.id === empId ) ? { ...employee, isSelected: !employee.isSelected } : (employee)
-    );
-
-    setState({ employees: selectedEmployees });
+  const updateSelectedEmp = (empId) => {
+    //dspatch an action
+   dispatch(updateSelected(empId));
   };
 
   return (
@@ -34,7 +35,7 @@ const EmployeeRedux = () => {
                     type="checkbox"
                     className="form-check-input"
                     checked={employee.isSelected}
-                    onChange={() => updateSelected(employee.id)}
+                    onChange={() => updateSelectedEmp(employee.id)}
                   />{" "}
                   {employee.name}
                 </li>
@@ -45,7 +46,7 @@ const EmployeeRedux = () => {
             {employees.map((employee) => (
               <div key={employee.id}>
                 {employee.isSelected && (
-                  <ul className="list-group m-3">
+                  <ul className="list-group mb-3">
                     <li className="list-group-item">
                       Name: {employee.name}
                     </li>
