@@ -1,42 +1,21 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {getUser} from '../../redux/features/userSlice';
 
-const User = () => {
+const UserRedux = () => {
+  
+  let dispatch = useDispatch();
 
-  const [data, setData] = useState({
-    loading: false,
-    users: [],
-    errorMessage: ''
-  });
-
-  const {loading, users, errorMessage} = data;
+  //get data from redux store
+  let userState = useSelector((store) => {
+    return store['users'];  
+  })
 
   useEffect(() => {
-    const fetchData = async () => {
-      setData({...data, loading: true})
-      try{
-        const response = await axios.get("https://jsonplaceholder.org/users");
-        console.log(response);
+    dispatch(getUser());
+  }, [dispatch]);
 
-        setData({
-          loading: false,
-          users: response.data, //here data is not state after response we must add ".data"
-          errorMessage: ''
-        })
-      } 
-      catch (error){
-        setData({
-          loading: false,
-          users: [],
-          errorMessage: error
-        })
-      }
-    }
-
-    fetchData();
-  }, []);
-
-
+  const {loading, users} = userState;
 
   return (
     <>
@@ -95,4 +74,4 @@ const User = () => {
   )
 }
 
-export default User;
+export default UserRedux;
